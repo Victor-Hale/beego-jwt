@@ -1,5 +1,79 @@
 # THIS REPOSITORY IS NO LONGER MAINTANED
 
+###and  wzh
+# beego-jwt
+
+## 本库在原有的dgrijalva开发的goland的jwt方法中，添加了表面封装
+
+func RefreshToken：：刷新jwt token
+
+```
+token, err := jwt.ParseWithClaims(
+   tokenString,
+   &MyCustomClaims{},
+   func(token *jwt.Token) (interface{}, error) {
+      return []byte(KEY), nil
+   })
+claims, ok := token.Claims.(*MyCustomClaims)
+if !ok || !token.Valid {
+   return "", err
+}
+mySigningKey := []byte(KEY)
+expireAt := time.Now().Add(time.Second * time.Duration(DEFAULT_EXPIRE_SECONDS)).Unix()
+newClaims := MyCustomClaims{
+   claims.User,
+   jwt.StandardClaims{
+      ExpiresAt: expireAt,
+      Issuer:    claims.User.Username,
+      IssuedAt:  time.Now().Unix(),
+   },
+```
+
+func ValidateToken：：验证jtw token
+
+...
+
+func GenerateToken//获取jwt token
+
+...
+
+func GetHeaderTokenValue   return this result to client then all later request should have header "Authorization: Bearer <token> "
+
+...
+
+
+func MD5  //生成32位MD5
+
+func HashAndSalt  //生成hash256加盐加密
+
+```
+pwd := []byte(pwdStr)
+hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
+if err != nil {
+   return
+}
+pwdHash = string(hash)
+return
+```
+
+func ComparePasswords// 验证hash256密码
+
+```
+byteHash := []byte(hashedPwd)    //hash加密加盐后的密码
+bytePwd := []byte(plainPwd)      //用户密码
+err := bcrypt.CompareHashAndPassword(byteHash, bytePwd)
+if err != nil {
+   return false
+}
+return true
+```
+
+注意参数
+
+
+
+
+
 The new repository can be found at: https://github.com/golang-jwt/jwt
 
 For more information, see issue [#462](https://github.com/dgrijalva/jwt-go/issues/462).
