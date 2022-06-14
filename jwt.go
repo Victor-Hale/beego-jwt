@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"golang.org/x/crypto/bcrypt"
+	"net/http"
 	"time"
 )
 
@@ -73,7 +74,7 @@ func ValidateToken(tokenString string) (info User, err error) {
 		//fmt.Println("token will be expired at ", time.Unix(claims.StandardClaims.ExpiresAt, 0))
 		info = claims.User
 	} else {
-		fmt.Println("validate tokenString failed !!!", err)
+		fmt.Println(err)
 	}
 	return
 }
@@ -141,3 +142,10 @@ func ComparePasswords(hashedPwd string, plainPwd string) bool {
 	}
 	return true
 }
+
+ func Check(res http.ResponseWriter, req *http.Request){
+	 header:=req.Header
+	 fmt.Println(res,"Header全部数据:",header)
+}
+
+
